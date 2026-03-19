@@ -1,28 +1,28 @@
 from django.urls.conf import path, include
 
-from services.views import list_services, create_service, service_details, edit_service, delete_service, list_barbers, \
-    barber_details, edit_barber, delete_barber, create_barber
+from services.views import ListBarbersView, DetailsBarberView, CreateBarberView, EditBarberView, DeleteBarberView, ListServicesView, \
+    DetailsServicesView, CreateServiceView, EditServiceView, DeleteServiceView
 
 app_name = 'services'
 
 
 barbers_patterns = [
-    path('', list_barbers, name='list-barbers'),
-    path('create/', create_barber, name='create-barber'),
+    path('', ListBarbersView.as_view(), name='list-barbers'),
+    path('create/', CreateBarberView.as_view(), name='create-barber'),
     path('<slug:slug>/', include([
-        path('', barber_details, name='barber-details'),
-        path('edit/', edit_barber, name='edit-barber'),
-        path('delete/', delete_barber, name='delete-barber')
+        path('', DetailsBarberView.as_view(), name='barber-details'),
+        path('edit/', EditBarberView.as_view(), name='edit-barber'),
+        path('delete/', DeleteBarberView.as_view(), name='delete-barber')
     ]))
 ]
 
 services_patterns = [
-    path('', list_services, name='list-services'),
-    path('create/', create_service, name='create-service'),
+    path('', ListServicesView.as_view(), name='list-services'),
+    path('create/', CreateServiceView.as_view(), name='create-service'),
     path('<slug:slug>/', include([
-        path('', service_details, name='service-details'),
-        path('edit/', edit_service, name='edit-service'),
-        path('delete/', delete_service, name='delete-service')
+        path('', DetailsServicesView.as_view(), name='service-details'),
+        path('edit/', EditServiceView.as_view(), name='edit-service'),
+        path('delete/', DeleteServiceView.as_view(), name='delete-service')
     ]))
 
 ]
