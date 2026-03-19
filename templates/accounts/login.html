@@ -1,0 +1,55 @@
+{% extends 'common/base.html' %}
+
+{% block content %}
+<div class="container py-5 min-vh-80 d-flex align-items-center justify-content-center">
+    
+    <div class="card blade-card border-0 shadow-lg rounded-0 generic-form-wrapper">
+        <div class="card-body p-4 p-md-5">
+
+            <div class="text-center mb-4">
+                <p class="text-warning text-uppercase small mb-1 ls-2">Welcome Back</p>
+                <h2 class="display-6 fw-bold text-uppercase text-white mb-3">Login</h2>
+                <div class="bg-warning mx-auto blade-divider-sm"></div>
+            </div>
+
+            <form method="POST" class="blade-form text-start">
+                {% csrf_token %}
+
+                {% for field in form %}
+                    <div class="mb-4">
+                        <label>{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <div class="text-danger small mt-1 fw-bold">
+                                {{ field.errors|striptags }}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger rounded-0 small fw-bold">
+                        {% for error in form.non_field_errors %}
+                            {{ error|striptags }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <div class="mt-5">
+                    <button type="submit" class="btn btn-warning w-100 rounded-0 text-uppercase fw-bold py-3 shadow-sm ls-2">
+                        <i class="fas fa-sign-in-alt me-2"></i> Access Account
+                    </button>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <p class="small text-white-50">
+                        Don't have an account? 
+                        <a href="{% url 'register' %}" class="text-warning text-decoration-none fw-bold ms-1 hover-warning">Register here</a>
+                    </p>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

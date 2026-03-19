@@ -30,7 +30,8 @@ ALLOWED_HOSTS = ['*']
 PROJECT_APPS = [
     'web',
     'bookings',
-    'services'
+    'services',
+    'accounts'
 ]
 
 # Application definition

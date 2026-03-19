@@ -160,6 +160,11 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator { filter: invert
     transform: scale(1.05);
 }
 
+.hover-warning:hover {
+    color: #ffc107 !important;
+    transition: color 0.3s ease;
+}
+
 @media (max-width: 768px) {
     .error-code-title {
         font-size: 6rem;
