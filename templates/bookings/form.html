@@ -1,0 +1,63 @@
+{% extends 'common/base.html' %}
+
+{% block content %}
+<div class="container py-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+
+            <div class="card blade-card border-0 shadow-lg rounded-0">
+                <div class="card-body p-4 p-md-5">
+
+                    <div class="text-center mb-4">
+                        <p class="text-warning text-uppercase small mb-1 ls-2">Exclusive Service</p>
+                        <h2 class="display-6 fw-bold text-uppercase text-white mb-3">
+                            {% if booking %}
+                                Edit Booking
+                            {% else %}
+                                Book a Seat
+                            {% endif %}
+                        </h2>
+                        <div class="bg-warning mx-auto blade-divider-sm"></div>
+                    </div>
+
+                    <form method="POST" class="blade-form text-start">
+                        {% csrf_token %}
+
+                        {% for field in form %}
+                            <div class="mb-4">
+                                <label>{{ field.label }}</label>
+
+                                {{ field }}
+
+                                {% if field.errors %}
+                                    <div class="text-danger small mt-1 fw-bold">
+                                        {{ field.errors|striptags }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+
+                        <div class="mt-5">
+                            <button type="submit" class="btn btn-warning w-100 rounded-0 text-uppercase fw-bold py-3 shadow-sm ls-2">
+                                {% if booking %}
+                                    <i class="fas fa-save me-2"></i> Edit Booking
+                                {% else %}
+                                    <i class="fas fa-calendar-check me-2"></i> Confirm Booking
+                                {% endif %}
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <a href="javascript:history.back()" class="text-white-50 text-decoration-none small text-uppercase ls-1">
+                    &larr; Cancel and go back
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

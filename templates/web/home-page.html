@@ -1,0 +1,56 @@
+{% extends 'common/base.html' %}
+
+{% block content %}
+<section class="py-2 text-center text-white mb-2 hero-section">
+    <div class="container">
+        <p class="text-uppercase mb-0 hero-subtitle ls-3">
+            Welcome to
+        </p>
+
+        <h1 class="display-3 fw-bold text-warning mb-1 hero-title ls-2">
+            Blade & Gold Barber Shop
+        </h1>
+
+        <div class="bg-warning mx-auto mb-3 blade-divider-sm opacity-60"></div>
+
+        <p class="lead fs-5 fw-light opacity-75">Precision grooming for the modern gentleman.</p>
+    </div>
+</section>
+
+<div class="container mb-5">
+    <h4 class="text-center text-uppercase fw-bold mb-3 text-white opacity-75 ls-2">
+        {% if top_three_barbers %}
+            Our Top Barbers
+        {% endif %}
+    </h4>
+    <hr class="border-warning border-2 opacity-50 w-25 mx-auto mb-4">
+
+    <div class="row g-4 justify-content-center">
+        {% for barber in top_three_barbers %}
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm transition-hover overflow-hidden">
+                <div class="bg-dark barber-home-img-container">
+                    {% if barber.image_url %}
+                        <img src="{{ barber.image_url }}"
+                             class="card-img-top h-100 w-100 object-fit-cover"
+                             alt="{{ barber.first_name }}">
+                    {% else %}
+                        <div class="d-flex align-items-center justify-content-center h-100">
+                            <span class="text-warning fs-1">✂️</span>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="card-body text-center bg-dark text-white">
+                    <h5 class="card-title fw-bold text-uppercase">{{ barber.first_name }}</h5>
+                    <p class="card-text text-secondary fst-italic small">Bookings: {{ barber.bookings_count }}</p>
+                    <a href="{% url 'services:barber-details' barber.slug %}" class="btn btn-outline-warning btn-sm mt-2">Details</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center text-white-50">No barbers yet.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

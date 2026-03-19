@@ -1,0 +1,45 @@
+{% extends 'common/base.html' %}
+
+{% block content %}
+<div class="container py-5 min-vh-80 d-flex align-items-center justify-content-center">
+
+    <div class="card blade-card border-0 shadow-lg rounded-0 generic-form-wrapper blade-card-danger">
+        <div class="card-body p-4 p-md-5">
+
+            <div class="text-center mb-4">
+                <i class="fas fa-exclamation-triangle text-danger display-5 mb-3"></i>
+                <h2 class="display-6 fw-bold text-uppercase text-white mb-3">Delete Record</h2>
+                <div class="bg-danger mx-auto blade-divider-sm"></div>
+            </div>
+
+            <p class="text-center text-white-50 fs-5 mb-5 ls-1">
+                You are about to delete <strong class="text-danger text-uppercase">"{{ service.name|default:'this record' }}"</strong>.
+            </p>
+
+            <form method="POST" class="blade-form text-start">
+                {% csrf_token %}
+
+                {% for field in form %}
+                    <div class="mb-4 opacity-50">
+                        <label class="text-white-50 small text-uppercase ls-1">{{ field.label }}</label>
+                        {{ field }}
+                    </div>
+                {% endfor %}
+
+                <div class="mt-5 pt-2">
+                    <button type="submit" class="btn btn-danger w-100 rounded-0 text-uppercase fw-bold py-3 shadow-sm ls-2">
+                        <i class="fas fa-trash-alt me-2"></i> Delete
+                    </button>
+                </div>
+
+                <div class="text-center mt-4">
+                    <a href="javascript:history.back()" class="text-white-50 text-decoration-none small text-uppercase ls-1 hover-warning">
+                        <i class="fas fa-arrow-left me-1"></i> Cancel and go back
+                    </a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'common/base.html' %}
+
+{% block content %}
+<div class="container py-5 min-vh-80">
+
+    <div class="text-center mb-5">
+        <h1 class="display-3 fw-bold text-uppercase text-white">
+            Services
+        </h1>
+        <div class="bg-warning mx-auto mt-3 blade-title-divider"></div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 justify-content-center">
+
+        {% for service in services %}
+            <div class="col">
+                <div class="card h-100 border-0 rounded-0 text-white shadow service-card-item transition-hover"
+                     style="--bg-image: url('{% if service.image_url %}{{ service.image_url }}{% else %}https://via.placeholder.com/500x500/261C19/FFFFFF?text=No+Image{% endif %}');">
+
+                    <div class="card-body p-4 d-flex flex-column justify-content-end text-center">
+
+                        <h5 class="card-title text-uppercase fw-bold mb-1">
+                            {{ service.name }}
+                        </h5>
+
+                        <div class="mb-3">
+                            <span class="fs-3 fw-bold text-warning">
+                                €{{ service.price }}
+                            </span>
+                        </div>
+
+                        <div class="mt-auto">
+                            <div class="d-grid mb-2">
+                                <a href="{% url 'services:service-details' service.slug %}"
+                                   class="btn btn-outline-light rounded-0 text-uppercase fw-bold py-2">
+                                    Details
+                                </a>
+                            </div>
+
+                            {% if request.GET.manage == '1' %}
+                                <div class="d-flex gap-2 justify-content-center">
+                                    <a href="{% url 'services:edit-service' service.slug %}"
+                                       class="btn btn-outline-warning btn-sm rounded-0 text-uppercase flex-grow-1 shadow-sm">
+                                        <i class="fas fa-edit me-1"></i> EDIT
+                                    </a>
+                                    <a href="{% url 'services:delete-service' service.slug %}"
+                                       class="btn btn-outline-danger btn-sm rounded-0 text-uppercase flex-grow-1 shadow-sm">
+                                        <i class="fas fa-trash me-1"></i> DELETE
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12 text-center py-5">
+                <h3 class="text-white-50">No services available.</h3>
+            </div>
+        {% endfor %}
+
+    </div>
+</div>
+{% endblock %}

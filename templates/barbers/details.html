@@ -1,0 +1,67 @@
+{% extends 'common/base.html' %}
+
+{% block content %}
+<div class="container py-5">
+
+    <div class="mb-4">
+        <a href="javascript:history.back()" class="text-decoration-none text-secondary text-uppercase small hover-warning ls-1">
+            <span class="text-warning me-2">&larr;</span> Back to Home Page
+        </a>
+    </div>
+
+    <div class="card text-white border-0 shadow-lg overflow-hidden rounded-0">
+        <div class="row g-0 mx-auto barber-detail-wrapper">
+
+            <div class="col-md-6">
+                <div class="barber-img-wrapper">
+                    {% if barber.image_url %}
+                        <img src="{{ barber.image_url }}"
+                             class="img-fluid w-100 h-100 object-fit-cover barber-img-fit"
+                             alt="{{ barber.first_name }}">
+                    {% else %}
+                        <div class="d-flex align-items-center justify-content-center h-100 bg-secondary">
+                            <span class="text-white display-1">✂️</span>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-md-6 d-flex align-items-center">
+                <div class="card-body p-4 p-lg-5">
+
+                    <p class="text-warning text-uppercase fw-bold mb-2 small ls-2">
+                        {% if barber.years_of_experience > 2 %}
+                            Senior Barber
+                        {% elif barber.years_of_experience >= 1 %}
+                            Barber
+                        {% else %}
+                            Junior Barber
+                        {% endif %}
+                    </p>
+
+                    <h1 class="display-5 fw-bold text-uppercase text-white mb-3">
+                        {{ barber.first_name }} {{ barber.last_name }}
+                    </h1>
+
+                    <div class="bg-white opacity-25 mb-4 blade-divider"></div>
+
+                    <p class="lead text-white-50 mb-4 barber-bio-text">
+                        {% if barber.bio %}
+                            {{ barber.bio }}
+                        {% else %}
+                            Expert in classic cuts and modern styling. Committed to precision and the ultimate grooming experience at Blade & Gold.
+                        {% endif %}
+                    </p>
+
+                    <div class="d-grid">
+                        <a href="{% url 'bookings:create' %}?barber={{ barber.id }}" class="btn btn-warning rounded-0 py-3 fw-bold text-dark text-uppercase">
+                            Book with {{ barber.first_name }}
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

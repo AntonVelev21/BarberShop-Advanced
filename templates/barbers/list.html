@@ -1,0 +1,76 @@
+{% extends 'common/base.html' %}
+
+{% block content %}
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+        <p class="text-warning text-uppercase small mb-2 ls-1">The Crew</p>
+        <h1 class="display-3 fw-bold text-uppercase text-white">
+            Meet Our Team
+        </h1>
+        <div class="bg-warning mx-auto mt-3 blade-title-divider"></div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 justify-content-center">
+
+        {% for barber in barbers %}
+            <div class="col">
+                <div class="card h-100 border-0 shadow-lg rounded-0 barber-card-bg transition-hover">
+
+                    <div class="barber-card-img-container">
+                        {% if barber.image_url %}
+                            <img src="{{ barber.image_url }}"
+                                 class="card-img-top h-100 w-100 object-fit-cover barber-img-fit"
+                                 alt="{{ barber.first_name }}">
+                        {% else %}
+                            <div class="d-flex align-items-center justify-content-center h-100 bg-secondary">
+                                <span class="text-white display-1">✂️</span>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="card-body text-center p-4 d-flex flex-column text-white">
+
+                        <h3 class="card-title text-uppercase fw-bold mb-1">
+                            {{ barber.first_name }} {{ barber.last_name }}
+                        </h3>
+
+                        <p class="text-warning small text-uppercase mb-3">Master Barber</p>
+
+                        <p class="card-text text-white-50 mb-4 flex-grow-1">
+                            {{ barber.bio|default:"Professional barber at Blade & Gold."|truncatechars:100 }}
+                        </p>
+
+                        <div class="mt-auto">
+                            <div class="d-grid mb-2">
+                                <a href="{% url 'services:barber-details' barber.slug %}"
+                                   class="btn btn-warning rounded-0 text-uppercase fw-bold py-2">
+                                    View Profile
+                                </a>
+                            </div>
+
+                            {% if request.GET.manage == '1' %}
+                                <div class="d-flex gap-2 justify-content-center">
+                                    <a href="{% url 'services:edit-barber' barber.slug %}"
+                                       class="btn btn-outline-warning btn-sm rounded-0 text-uppercase flex-grow-1 shadow-sm">
+                                        <i class="fas fa-edit me-1"></i> EDIT
+                                    </a>
+                                    <a href="{% url 'services:delete-barber' barber.slug %}"
+                                       class="btn btn-outline-danger btn-sm rounded-0 text-uppercase flex-grow-1 shadow-sm">
+                                        <i class="fas fa-trash me-1"></i> DELETE
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12 text-center py-5">
+                <h3 class="text-white-50">No barbers found just yet.</h3>
+            </div>
+        {% endfor %}
+
+    </div>
+</div>
+{% endblock %}

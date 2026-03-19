@@ -1,0 +1,25 @@
+{% extends 'common/base.html' %}
+
+{% block content %}
+<div class="container d-flex flex-column justify-content-center align-items-center text-center" style="min-height: 75vh;">
+    <div class="error-wrapper px-3">
+        
+        <h1 class="error-code-title text-warning fw-bold mb-0">404</h1>
+        
+        <div class="mb-4 text-white-50">
+            <i class="fas fa-cut fa-3x error-scissors-icon"></i>
+        </div>
+        
+        <h2 class="text-white text-uppercase fw-bold ls-1 mb-3">Whoops! Bad Cut.</h2>
+        <p class="text-white-50 mb-5 fs-5">
+            It looks like this page got shaved off or doesn't exist anymore.<br>
+            Don't worry, let's get you back to the chair.
+        </p>
+        
+        <a href="{% url 'home-page' %}" class="btn btn-warning rounded-0 py-3 px-5 fw-bold text-dark text-uppercase shadow-lg transition-all hover-scale">
+            <i class="fas fa-arrow-left me-2"></i> Return to Homepage
+        </a>
+        
+    </div>
+</div>
+{% endblock %}
