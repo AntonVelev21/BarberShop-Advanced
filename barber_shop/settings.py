@@ -31,7 +31,8 @@ PROJECT_APPS = [
     'web',
     'bookings',
     'services',
-    'accounts'
+    'accounts',
+    'api'
 ]
 
 # Application definition
