@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
@@ -14,7 +15,7 @@ class ListBookingsView(ListView):
 
 
 
-class CreateBookingView(CreateView):
+class CreateBookingView(LoginRequiredMixin, CreateView):
     form_class = BookingCreateForm
     model = Booking
     template_name = 'bookings/form.html'
