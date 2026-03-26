@@ -14,15 +14,17 @@ class RegisterView(CreateView):
         return reverse_lazy('home-page')
 
     def form_valid(self, form):
-        response = super().form_valid(form)
-        login(self.request, form.instance)
-        return response
+        user = form.save()
+        login(self.request, user)
+        return super().form_valid(form)
 
 
 
 class LogInView(LoginView):
     template_name = 'accounts/login.html'
-    success_url = reverse_lazy('home-page')
+
+    def get_success_url(self):
+        return reverse_lazy('home-page')
 
 
 

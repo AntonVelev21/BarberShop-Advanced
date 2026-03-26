@@ -37,9 +37,9 @@
                             </td>
 
                             <td class="px-4 py-3">
-                                <div class="fw-bold text-white fs-6">{{ booking.client_name }}</div>
+                                <div class="fw-bold text-white fs-6">{{ booking.user_profile.user.username }}</div>
                                 <div class="text-white-50 small mt-1">
-                                    <a href="tel:{{ booking.client_phone }}" class="text-white-50 text-decoration-none hover-warning">
+                                    <a href="tel:{{ booking.user_profile.phone_number }}" class="text-white-50 text-decoration-none hover-warning">
                                         <i class="fas fa-phone-alt me-1 blade-icon-sm"></i> {{ booking.client_phone }}
                                     </a>
                                 </div>

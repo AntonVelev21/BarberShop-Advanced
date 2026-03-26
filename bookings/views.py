@@ -28,6 +28,12 @@ class CreateBookingView(LoginRequiredMixin, CreateView):
             initial['barber'] = barber.id
         return initial
 
+    def form_valid(self, form):
+        booking = form.save(commit=False)
+        booking.user_profile = self.request.user.user_profile
+        booking.save()
+        return super().form_valid(form)
+
 
 
 class EditBookingView(UpdateView):

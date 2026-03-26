@@ -13,7 +13,7 @@
             </div>
 
             <p class="text-center text-white-50 fs-5 mb-5 ls-1">
-                You are about to cancel the booking for <strong class="text-danger text-uppercase">"{{ booking.client_name|default:booking }}"</strong>.
+                You are about to cancel the booking for <strong class="text-danger text-uppercase">"{{ request.user.username }}"</strong>.
             </p>
 
             <form method="POST" class="blade-form text-start">
