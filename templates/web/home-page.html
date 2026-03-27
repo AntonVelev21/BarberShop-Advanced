@@ -29,10 +29,10 @@
         {% for barber in top_three_barbers %}
         <div class="col-md-4">
             <div class="card h-100 border-0 shadow-sm transition-hover overflow-hidden">
-                <div class="bg-dark barber-home-img-container">
+                <div class="bg-dark barber-card-img-container">
                     {% if barber.image_url %}
                         <img src="{{ barber.image_url }}"
-                             class="card-img-top h-100 w-100 object-fit-cover"
+                             class="card-img-top h-100 w-100 object-fit-cover barber-img-fit"
                              alt="{{ barber.first_name }}">
                     {% else %}
                         <div class="d-flex align-items-center justify-content-center h-100">

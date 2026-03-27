@@ -66,7 +66,6 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator { filter: invert
 .hero-section { min-height: 200px; display: flex; align-items: center; }
 .hero-subtitle { color: #f5f5dc; font-weight: 500; opacity: 0.9; }
 .hero-title { text-shadow: 2px 2px 10px rgba(0,0,0,0.8); }
-.barber-home-img-container { height: 300px; }
 
 
 .barber-detail-wrapper { background-color: #261C19; max-width: 1300px; min-height: 600px; width: 100%; }

@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
+from django.template.context_processors import request
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from bookings.forms import BookingCreateForm, BookingDeleteForm, BookingEditForm
@@ -8,10 +9,16 @@ from services.models import Barber
 
 
 
-class ListBookingsView(ListView):
+class ListBookingsView(LoginRequiredMixin, ListView):
     model = Booking
     context_object_name = 'bookings'
     template_name = 'bookings/list.html'
+
+    def get_queryset(self):
+        if self.request.user.is_staff:
+            return Booking.objects.all()
+        user_profile = self.request.user.user_profile
+        return Booking.objects.filter(user_profile=user_profile)
 
 
 

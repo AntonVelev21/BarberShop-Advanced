@@ -18,14 +18,20 @@
                 <li class="nav-item">
                     <a href="{% url 'services:list-services' %}" class="nav-link text-white text-uppercase fw-semibold px-2">Services</a>
                 </li>
+                {% if request.user.is_authenticated and not request.user.is_staff %}
+                <li class="nav-item">
+                    <a href="{% url 'bookings:list' %}" class="nav-link text-white text-uppercase fw-semibold px-2">My Bookings</a>
+                </li>
+                {% endif %}
 
                 <li class="nav-item d-none d-lg-block text-secondary">|</li>
-
+                {% if request.user.is_staff %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-danger small text-uppercase fw-bold staff-toggle-btn"
                        href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-user-shield me-1"></i> Staff Only
                     </a>
+                {% endif %}
 
                     <ul class="dropdown-menu dropdown-menu-end shadow-lg custom-staff-dropdown">
                         <li><h6 class="dropdown-header">Barbers Management</h6></li>
@@ -47,19 +53,26 @@
                         <li><a class="dropdown-item text-success-bright" href="{% url 'services:create-service' %}"><i class="fas fa-plus-circle me-2"></i>Add Service</a></li>
 
                         <li><hr class="dropdown-divider"></li>
-                        <li class="px-2 pb-2">
-                            <a href="{% url 'bookings:list' %}" class="btn btn-dark btn-sm w-100 shadow-sm fw-bold text-uppercase d-flex justify-content-center align-items-center text-warning blade-btn-res ls-1">
-                                <i class="fas fa-calendar-check me-2"></i> Bookings
-                            </a>
+
+                        <li><h6 class="dropdown-header">Bookings Management</h6></li>
+
+                        <li><a class="dropdown-item" href="{% url 'bookings:list' %}?manage=1">
+                            <i class="fas fa-tasks me-2"></i>Manage Bookings</a>
                         </li>
+
+                        <li><a class="dropdown-item text-success-bright" href="{% url 'bookings:create' %}"><i class="fas fa-plus-circle me-2"></i>Add Booking</a></li>
+
+                        <li><hr class="dropdown-divider"></li>
+
                     </ul>
                 </li>
-
+                {% if not request.user.is_staff %}
                 <li class="nav-item">
                     <a href="{% url 'bookings:create' %}" class="btn btn-warning fw-bold text-uppercase rounded-0 px-4 py-2 shadow-sm">
                         BOOK NOW
                     </a>
                 </li>
+                {% endif %}
 
                 {% if request.user.is_authenticated %}
                     <li class="nav-item">
