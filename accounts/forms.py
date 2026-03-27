@@ -1,11 +1,9 @@
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
-from rest_framework.fields import CharField
+from django.forms.models import ModelForm
+
+from accounts.models import UserProfile
 
 
-class UserCustomCreationForm(UserCreationForm):
-    phone_number = CharField(max_length=50)
-
+class UserProfileCreationForm(ModelForm):
     class Meta:
-        model = User
-        fields = ['username']
+        model = UserProfile
+        fields = ('phone_number', )

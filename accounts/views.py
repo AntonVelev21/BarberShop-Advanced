@@ -1,14 +1,17 @@
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm, UserModel
 from django.contrib.auth.views import LoginView, LogoutView
+from django.shortcuts import redirect
 from django.views.generic import CreateView
 from rest_framework.reverse import reverse_lazy
+from accounts.forms import UserProfileCreationForm
 
-
+#TO DO
+#Implement logic to add phone number field when creating user
 class RegisterView(CreateView):
     model = UserModel
-    form_class = UserCreationForm
     template_name = 'accounts/register.html'
+    form_class = UserCreationForm
 
     def get_success_url(self):
         return reverse_lazy('home-page')
@@ -16,7 +19,7 @@ class RegisterView(CreateView):
     def form_valid(self, form):
         user = form.save()
         login(self.request, user)
-        return super().form_valid(form)
+        return redirect(self.get_success_url())
 
 
 

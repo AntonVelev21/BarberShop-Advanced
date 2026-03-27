@@ -8,5 +8,5 @@ from accounts.models import UserProfile
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        profile = UserProfile.objects.create(user=instance)
+        profile = UserProfile.objects.create(user=instance, rating=0)
         profile.save()
