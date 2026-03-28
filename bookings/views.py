@@ -1,9 +1,10 @@
+from datetime import datetime
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
-from django.template.context_processors import request
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-from bookings.forms import BookingCreateForm, BookingDeleteForm, BookingEditForm
+from bookings.forms import BookingCreateForm, BookingEditForm
 from bookings.models import Booking
 from services.models import Barber
 
@@ -20,6 +21,11 @@ class ListBookingsView(LoginRequiredMixin, ListView):
         user_profile = self.request.user.user_profile
         return Booking.objects.filter(user_profile=user_profile)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(object_list=self.get_queryset(), **kwargs)
+        context['history'] = self.get_queryset().filter(date_and_hour__lt=datetime.today())
+        context['upcoming'] = self.get_queryset().filter(date_and_hour__gte=datetime.today())
+        return context
 
 
 class CreateBookingView(LoginRequiredMixin, CreateView):
