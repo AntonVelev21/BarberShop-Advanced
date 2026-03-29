@@ -1,10 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'common/base.html' %}
 
-</body>
-</html>
+{% block title %}Delete Review - BarberShop{% endblock %}
+
+{% block content %}
+<div class="container py-5 min-vh-80 d-flex align-items-center justify-content-center">
+
+    <div class="card blade-card border-0 shadow-lg rounded-0 generic-form-wrapper blade-card-danger" style="border-top: 5px solid #dc3545 !important;">
+        <div class="card-body p-4 p-md-5">
+
+            <div class="text-center mb-4">
+                <i class="fas fa-exclamation-triangle text-danger display-5 mb-3"></i>
+                <h2 class="display-6 fw-bold text-uppercase text-white mb-3">Confirm Delete</h2>
+                <div class="bg-danger mx-auto blade-divider-sm"></div>
+            </div>
+
+            <div class="text-center mb-5">
+                <p class="text-white-50 fs-5 mb-2 ls-1">
+                    Are you sure you want to delete your review:
+                </p>
+                <h4 class="text-warning text-uppercase fw-bold">"{{ review.title }}"</h4>
+            </div>
+
+            <div class="p-3 bg-dark bg-opacity-25 border border-secondary border-opacity-25 rounded mb-5">
+                <p class="text-white-50 small text-uppercase ls-1 mb-2">Review Content Snippet:</p>
+                <p class="mb-0 italic opacity-75">"{{ review.content|truncatewords:20 }}"</p>
+            </div>
+
+            <form method="POST" class="blade-form text-start">
+                {% csrf_token %}
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-danger w-100 rounded-0 text-uppercase fw-bold py-3 shadow-sm ls-2">
+                        <i class="fas fa-trash-alt me-2"></i> Permanent Delete
+                    </button>
+                </div>
+
+                <div class="text-center mt-4">
+                    <a href="{% url 'reviews:details' review.pk %}" class="text-white-50 text-decoration-none small text-uppercase ls-1 hover-warning">
+                        <i class="fas fa-arrow-left me-1"></i> No, take me back
+                    </a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

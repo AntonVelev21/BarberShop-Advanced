@@ -6,7 +6,8 @@ from reviews.models import Review
 class BaseReviewForm(ModelForm):
     class Meta:
         model = Review
-        fields = '__all__'
+        exclude = ('author', )
+
 
 
 class ReviewCreateForm(BaseReviewForm):

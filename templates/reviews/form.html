@@ -1,10 +1,67 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'common/base.html' %}
 
-</body>
-</html>
+{% block title %}
+    {% if review %}
+        Edit Review - BarberShop
+    {% else %}
+        Write a Review - BarberShop
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="container py-5 min-vh-80 d-flex align-items-center justify-content-center">
+
+    <div class="card blade-card border-0 shadow-lg rounded-0 generic-form-wrapper">
+        <div class="card-body p-4 p-md-5">
+
+            <div class="text-center mb-4">
+                <p class="text-warning text-uppercase small mb-1 ls-2">Customer Voice</p>
+                <h2 class="display-6 fw-bold text-uppercase text-white mb-3">
+                    {% if review.pk %}
+                        Edit Review
+                    {% else %}
+                        Write Review
+                    {% endif %}
+                </h2>
+                <div class="bg-warning mx-auto blade-divider-sm"></div>
+            </div>
+
+            <form method="POST" class="blade-form text-start">
+                {% csrf_token %}
+
+                {% for field in form %}
+                    <div class="mb-4">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.help_text %}
+                            <small class="text-white-50 d-block mt-1">{{ field.help_text }}</small>
+                        {% endif %}
+                        {% if field.errors %}
+                            <div class="text-danger small mt-1 fw-bold">
+                                {{ field.errors|striptags }}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+                <div class="mt-5">
+                    <button type="submit" class="btn btn-warning w-100 rounded-0 text-uppercase fw-bold py-3 shadow-sm ls-2">
+                        {% if review.pk %}
+                            <i class="fas fa-save me-2"></i> Update Review
+                        {% else %}
+                            <i class="fas fa-paper-plane me-2"></i> Post Review
+                        {% endif %}
+                    </button>
+                </div>
+
+                <div class="text-center mt-4">
+                    <a href="{% if review.pk %}{% url 'reviews:details' review.pk %}{% else %}{% url 'reviews:list' %}{% endif %}" class="text-white-50 text-decoration-none small text-uppercase ls-1">
+                        &larr; Cancel and go back
+                    </a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

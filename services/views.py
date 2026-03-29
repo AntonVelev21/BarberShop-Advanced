@@ -1,8 +1,7 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from rest_framework.reverse import reverse_lazy
 
-from services.forms import BarberCreateForm, ServiceCreateForm, BarberDeleteForm, BarberEditForm, ServiceEditForm, \
-    ServiceDeleteForm
+from services.forms import BarberCreateForm, ServiceCreateForm, BarberEditForm, ServiceEditForm
 from services.models import Barber, Service
 
 

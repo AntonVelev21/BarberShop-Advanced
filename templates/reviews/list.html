@@ -1,10 +1,75 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'common/base.html' %}
 
-</body>
-</html>
+{% block title %}Reviews - BarberShop{% endblock %}
+
+{% block content %}
+<section class="hero-section py-5 mb-4">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="display-3 fw-bold hero-title text-uppercase ls-3">Client <span class="text-warning">Testimonials</span></h1>
+                <div class="blade-title-divider"></div>
+                <p class="lead hero-subtitle fs-4">Excellence in every cut. Here's what our community says.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container mb-5">
+    <div class="row g-4">
+        {% for review in reviews %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card review-card h-100 transition-hover border-0 shadow">
+                <div class="card-body d-flex flex-column p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="text-warning">
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= review.rating %}
+                                    <i class="fas fa-star small"></i>
+                                {% else %}
+                                    <i class="far fa-star small"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <small class="text-white-50 ls-1 uppercase">{{ review.created_at|date:"M d, Y" }}</small>
+                    </div>
+
+                    <h5 class="card-title text-warning mb-3 fw-bold ls-1">{{ review.title }}</h5>
+                    
+                    <p class="card-text flex-grow-1 text-white-50 font-serif italic mb-4" style="font-style: italic;">
+                        "{{ review.content|truncatewords:25 }}"
+                    </p>
+                    
+                    <div class="blade-divider mb-4"></div>
+                    
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-warning text-dark rounded-circle d-flex align-items-center justify-content-center me-3 shadow-sm" style="width: 40px; height: 40px; font-weight: bold; border: 2px solid rgba(0,0,0,0.1);">
+                                {{ review.author.username|slice:":1"|upper }}
+                            </div>
+                            <div>
+                                <h6 class="mb-0 fw-bold text-white ls-1">{{ review.author.username }}</h6>
+                                {% if review.barber %}
+                                <small class="text-warning text-uppercase" style="font-size: 0.65rem; letter-spacing: 0.5px;">With {{ review.barber.first_name }}</small>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <a href="{% url 'reviews:details' review.pk %}" class="btn btn-outline-warning btn-sm rounded-pill px-3 py-1">
+                            <i class="fas fa-plus small me-1"></i> Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-5">
+            <div class="opacity-25 mb-4">
+                <i class="fas fa-quote-left fa-4x text-warning"></i>
+            </div>
+            <h3 class="hero-subtitle">No reviews yet. Be the first to share your experience!</h3>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

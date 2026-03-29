@@ -1,9 +1,6 @@
-
 from django.db import models
 from django.db.models import CASCADE
-from django.db.models.deletion import SET_NULL
 
-from bookings.validators import ClientPhoneValidator
 
 
 class Booking(models.Model):
