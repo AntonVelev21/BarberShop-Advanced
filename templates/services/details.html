@@ -9,24 +9,26 @@
         </a>
     </div>
 
-    <div class="card border-0 shadow-lg rounded-0 overflow-hidden mx-auto service-card-wrapper">
+    <div class="card border-0 shadow-lg rounded-0 overflow-hidden mx-auto service-card-wrapper bg-dark">
 
-        <div class="row g-0 h-100">
+        <div class="row g-0 align-items-stretch">
 
-            <div class="col-md-6 h-100">
+            <div class="col-md-6 position-relative" style="min-height: 350px;">
                 {% if service.image_url %}
+
                     <img src="{{ service.image_url }}"
-                         class="img-fluid w-100 h-100 object-fit-cover"
+                         class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover m-0 p-0"
                          alt="{{ service.name }}">
                 {% else %}
-                    <div class="d-flex align-items-center justify-content-center h-100 bg-secondary">
+                    <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-secondary">
                         <i class="fas fa-cut fa-3x text-white-50"></i>
                     </div>
                 {% endif %}
             </div>
 
-            <div class="col-md-6 h-100">
-                <div class="card-body p-4 p-lg-5 d-flex flex-column h-100 text-white">
+            <!-- ДЯСНА КОЛОНА: ТЕКСТ -->
+            <div class="col-md-6">
+                <div class="card-body p-4 p-lg-5 d-flex flex-column h-100 text-white w-100">
 
                     <h2 class="fw-bold text-uppercase mb-1 text-white">{{ service.name }}</h2>
                     <div class="bg-warning mb-3 blade-divider-xs"></div>
@@ -49,7 +51,7 @@
                     </div>
 
                     <div class="mt-auto">
-                        <a href="{% url 'bookings:create' %}" class="btn btn-warning w-100 rounded-0 py-3 fw-bold text-dark text-uppercase">
+                        <a href="{% url 'bookings:create' %}" class="btn btn-warning w-100 rounded-0 py-3 fw-bold text-dark text-uppercase transition-hover ls-1">
                             Choose Service
                         </a>
                     </div>

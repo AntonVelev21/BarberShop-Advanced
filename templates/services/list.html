@@ -4,6 +4,7 @@
 <div class="container py-5 min-vh-80">
 
     <div class="text-center mb-5">
+        <p class="text-warning text-uppercase small mb-2 ls-1">Our Offerings</p>
         <h1 class="display-3 fw-bold text-uppercase text-white">
             Services
         </h1>
@@ -14,40 +15,57 @@
 
         {% for service in services %}
             <div class="col">
-                <div class="card h-100 border-0 rounded-0 text-white shadow service-card-item transition-hover"
-                     style="--bg-image: url('{% if service.image_url %}{{ service.image_url }}{% else %}https://via.placeholder.com/500x500/261C19/FFFFFF?text=No+Image{% endif %}');">
+                <div class="card h-100 border-0 shadow-lg rounded-0 barber-card-bg transition-hover">
 
-                    <div class="card-body p-4 d-flex flex-column justify-content-end text-center">
+                    <div class="barber-card-img-container">
+                        {% if service.image_url %}
+                            <img src="{{ service.image_url }}"
+                                 class="card-img-top h-100 w-100 object-fit-cover barber-img-fit"
+                                 alt="{{ service.name }}">
+                        {% else %}
+                            <div class="d-flex align-items-center justify-content-center h-100 bg-secondary">
+                                <span class="text-white display-1">💈</span>
+                            </div>
+                        {% endif %}
+                    </div>
 
-                        <h5 class="card-title text-uppercase fw-bold mb-1">
+                    <div class="card-body text-center p-4 d-flex flex-column text-white">
+
+                        <h3 class="card-title text-uppercase fw-bold mb-1">
                             {{ service.name }}
-                        </h5>
+                        </h3>
 
                         <div class="mb-3">
-                            <span class="fs-3 fw-bold text-warning">
+                            <span class="fs-4 fw-bold text-warning ls-1">
                                 €{{ service.price }}
                             </span>
                         </div>
 
-                        <div class="mt-auto">
-                            <div class="d-grid mb-2">
-                                <a href="{% url 'services:service-details' service.slug %}"
-                                   class="btn btn-outline-light rounded-0 text-uppercase fw-bold py-2">
-                                    Details
-                                </a>
-                            </div>
+                        {{ service.description }}
+                        <p class="card-text text-white-50 mb-4 flex-grow-1">
+                            {{ service.description|default:"Premium grooming experience tailored for you."|truncatechars:100 }}
+                        </p>
 
-                            {% if request.GET.manage == '1' %}
-                                <div class="d-flex gap-2 justify-content-center">
-                                    <a href="{% url 'services:edit-service' service.slug %}"
-                                       class="btn btn-outline-warning btn-sm rounded-0 text-uppercase flex-grow-1 shadow-sm">
-                                        <i class="fas fa-edit me-1"></i> EDIT
-                                    </a>
-                                    <a href="{% url 'services:delete-service' service.slug %}"
-                                       class="btn btn-outline-danger btn-sm rounded-0 text-uppercase flex-grow-1 shadow-sm">
-                                        <i class="fas fa-trash me-1"></i> DELETE
-                                    </a>
-                                </div>
+                        <div class="mt-auto d-flex flex-wrap align-items-center gap-2 w-100">
+                            <!-- Details -->
+                            <a href="{% url 'services:service-details' service.slug %}"
+                               class="btn btn-warning text-uppercase fw-bold py-2 flex-grow-1 ls-1"
+                               style="font-size: 0.85rem;">
+                                Details
+                            </a>
+
+                            {% if request.user.is_staff %}
+                                <a href="{% url 'services:edit-service' service.slug %}"
+                                   class="btn btn-outline-warning px-3 py-2 transition-hover text-uppercase ls-1 fw-bold"
+                                   style="font-size: 0.85rem;">
+                                    <i class="fas fa-edit me-1"></i> Edit
+                                </a>
+
+                                <a href="{% url 'services:delete-service' service.slug %}"
+                                   class="btn btn-outline-danger px-3 py-2 transition-hover text-uppercase ls-1 fw-bold"
+                                   style="font-size: 0.85rem;">
+                                    <i class="fas fa-trash-alt me-1"></i> Del
+                                </a>
                             {% endif %}
                         </div>
 
@@ -56,7 +74,7 @@
             </div>
         {% empty %}
             <div class="col-12 text-center py-5">
-                <h3 class="text-white-50">No services available.</h3>
+                <h3 class="text-white-50">No services available just yet.</h3>
             </div>
         {% endfor %}
 

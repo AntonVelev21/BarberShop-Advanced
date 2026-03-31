@@ -43,9 +43,10 @@
                     <div class="blade-divider mb-4"></div>
                     
                     <div class="d-flex align-items-center justify-content-between">
+                        <!-- Лява част: Автор -->
                         <div class="d-flex align-items-center">
                             <div class="bg-warning text-dark rounded-circle d-flex align-items-center justify-content-center me-3 shadow-sm" style="width: 40px; height: 40px; font-weight: bold; border: 2px solid rgba(0,0,0,0.1);">
-                                {{ review.author.username|slice:":1"|upper }}
+                                {{ review.author.user.username|slice:":1"|upper }}
                             </div>
                             <div>
                                 <h6 class="mb-0 fw-bold text-white ls-1">{{ review.author.username }}</h6>
@@ -55,9 +56,22 @@
                             </div>
                         </div>
 
-                        <a href="{% url 'reviews:details' review.pk %}" class="btn btn-outline-warning btn-sm rounded-pill px-3 py-1">
-                            <i class="fas fa-plus small me-1"></i> Details
-                        </a>
+                        <!-- Дясна част: Бутони -->
+                        <div class="d-flex align-items-center gap-1">
+                            <!-- Проверка дали текущият потребител е авторът на ревюто -->
+                            {% if request.user.is_staff %}
+                                <a href="{% url 'reviews:edit' review.pk %}" class="btn btn-sm text-white-50 hover-warning p-1" title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="{% url 'reviews:delete' review.pk %}" class="btn btn-sm text-danger opacity-75 hover-warning p-1 me-1" title="Delete">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            {% endif %}
+
+                            <a href="{% url 'reviews:details' review.pk %}" class="btn btn-outline-warning btn-sm rounded-pill px-3 py-1">
+                                <i class="fas fa-plus small me-1"></i> Details
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

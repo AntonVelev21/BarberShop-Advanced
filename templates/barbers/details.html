@@ -9,25 +9,28 @@
         </a>
     </div>
 
-    <div class="card text-white border-0 shadow-lg overflow-hidden rounded-0">
-        <div class="row g-0 mx-auto barber-detail-wrapper">
+    <div class="card border-0 shadow-lg rounded-0 mx-auto barber-detail-wrapper barber-card-bg overflow-hidden">
 
-            <div class="col-md-6">
-                <div class="barber-img-wrapper">
-                    {% if barber.image_url %}
-                        <img src="{{ barber.image_url }}"
-                             class="img-fluid w-100 h-100 object-fit-cover barber-img-fit"
-                             alt="{{ barber.first_name }}">
-                    {% else %}
-                        <div class="d-flex align-items-center justify-content-center h-100 bg-secondary">
-                            <span class="text-white display-1">✂️</span>
-                        </div>
-                    {% endif %}
-                </div>
+        <div class="row g-0 h-100 align-items-stretch">
+
+            <div class="col-md-6 position-relative">
+
+                <div class="barber-img-wrapper w-100"></div>
+
+                {% if barber.image_url %}
+                    <img src="{{ barber.image_url }}"
+                         class="barber-img-fit position-absolute top-0 start-0 m-0 p-0"
+                         alt="{{ barber.first_name }}">
+                {% else %}
+                    <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-black" style="opacity: 0.8;">
+                        <span class="text-warning opacity-50" style="font-size: 5rem;">✂️</span>
+                    </div>
+                {% endif %}
+
             </div>
 
-            <div class="col-md-6 d-flex align-items-center">
-                <div class="card-body p-4 p-lg-5">
+            <div class="col-md-6 d-flex flex-column justify-content-center">
+                <div class="card-body p-4 p-lg-5 text-white w-100">
 
                     <p class="text-warning text-uppercase fw-bold mb-2 small ls-2">
                         {% if barber.years_of_experience > 2 %}
@@ -43,7 +46,7 @@
                         {{ barber.first_name }} {{ barber.last_name }}
                     </h1>
 
-                    <div class="bg-white opacity-25 mb-4 blade-divider"></div>
+                    <div class="blade-title-divider mb-4"></div>
 
                     <p class="lead text-white-50 mb-4 barber-bio-text">
                         {% if barber.bio %}
@@ -53,8 +56,8 @@
                         {% endif %}
                     </p>
 
-                    <div class="d-grid">
-                        <a href="{% url 'bookings:create' %}?barber={{ barber.id }}" class="btn btn-warning rounded-0 py-3 fw-bold text-dark text-uppercase">
+                    <div class="d-grid mt-5">
+                        <a href="{% url 'bookings:create' %}?barber={{ barber.id }}" class="btn btn-warning rounded-0 py-3 fw-bold text-dark text-uppercase ls-1 transition-hover">
                             Book with {{ barber.first_name }}
                         </a>
                     </div>

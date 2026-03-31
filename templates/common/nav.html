@@ -9,15 +9,16 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navBarMain">
             <span class="navbar-toggler-icon"></span>
         </button>
-
         <div class="collapse navbar-collapse" id="navBarMain">
             <ul class="navbar-nav ms-auto align-items-center gap-lg-4">
+                {% if not request.user.is_staff %}
                 <li class="nav-item">
                     <a href="{% url 'services:list-barbers' %}" class="nav-link text-white text-uppercase fw-semibold px-2">Barbers</a>
                 </li>
                 <li class="nav-item">
                     <a href="{% url 'services:list-services' %}" class="nav-link text-white text-uppercase fw-semibold px-2">Services</a>
                 </li>
+                {% endif %}
                 {% if request.user.is_authenticated and not request.user.is_staff %}
                 <li class="nav-item">
                     <a href="{% url 'bookings:list' %}" class="nav-link text-white text-uppercase fw-semibold px-2">My Bookings</a>
@@ -29,14 +30,14 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-danger small text-uppercase fw-bold staff-toggle-btn"
                        href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-user-shield me-1"></i> Staff Only
+                        <i class="fas fa-user-shield me-1"></i> Staff Management
                     </a>
                 {% endif %}
 
                     <ul class="dropdown-menu dropdown-menu-end shadow-lg custom-staff-dropdown">
                         <li><h6 class="dropdown-header">Barbers Management</h6></li>
                         <li>
-                            <a class="dropdown-item" href="{% url 'services:list-barbers' %}?manage=1">
+                            <a class="dropdown-item" href="{% url 'services:list-barbers' %}">
                                 <i class="fas fa-edit me-2"></i>Manage Barbers
                             </a>
                         </li>
@@ -46,7 +47,7 @@
 
                         <li><h6 class="dropdown-header">Services Management</h6></li>
 
-                        <li><a class="dropdown-item" href="{% url 'services:list-services' %}?manage=1">
+                        <li><a class="dropdown-item" href="{% url 'services:list-services' %}">
                             <i class="fas fa-tasks me-2"></i>Manage Services</a>
                         </li>
 
@@ -56,7 +57,7 @@
 
                         <li><h6 class="dropdown-header">Bookings Management</h6></li>
 
-                        <li><a class="dropdown-item" href="{% url 'bookings:list' %}?manage=1">
+                        <li><a class="dropdown-item" href="{% url 'bookings:list' %}">
                             <i class="fas fa-tasks me-2"></i>Manage Bookings</a>
                         </li>
 
@@ -64,6 +65,11 @@
 
                         <li><hr class="dropdown-divider"></li>
 
+                        <li><h6 class="dropdown-header">Reviews Management</h6></li>
+
+                        <li><a class="dropdown-item" href="{% url 'reviews:list' %}">
+                            <i class="fas fa-tasks me-2"></i>Manage Reviews</a>
+                        </li>
                     </ul>
                 </li>
                 {% if not request.user.is_staff %}

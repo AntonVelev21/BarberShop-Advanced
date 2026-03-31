@@ -1,56 +1,123 @@
 {% extends 'common/base.html' %}
 
 {% block content %}
-<section class="py-2 text-center text-white mb-2 hero-section">
+<section class="hero-section text-center mb-5">
     <div class="container">
         <p class="text-uppercase mb-0 hero-subtitle ls-3">
             Welcome to
         </p>
 
-        <h1 class="display-3 fw-bold text-warning mb-1 hero-title ls-2">
+        <h1 class="display-3 hero-title ls-2 text-warning mb-2">
             Blade & Gold Barber Shop
         </h1>
 
-        <div class="bg-warning mx-auto mb-3 blade-divider-sm opacity-60"></div>
+        <div class="blade-divider-sm mx-auto mb-3 opacity-60"></div>
 
-        <p class="lead fs-5 fw-light opacity-75">Precision grooming for the modern gentleman.</p>
+        <p class="lead fs-5 fw-light opacity-60">Precision grooming for the modern gentleman.</p>
     </div>
 </section>
 
 <div class="container mb-5">
-    <h4 class="text-center text-uppercase fw-bold mb-3 text-white opacity-75 ls-2">
-        {% if top_three_barbers %}
-            Our Top Barbers
-        {% endif %}
-    </h4>
-    <hr class="border-warning border-2 opacity-50 w-25 mx-auto mb-4">
+    <div class="row g-5">
 
-    <div class="row g-4 justify-content-center">
-        {% for barber in top_three_barbers %}
-        <div class="col-md-4">
-            <div class="card h-100 border-0 shadow-sm transition-hover overflow-hidden">
-                <div class="bg-dark barber-card-img-container">
-                    {% if barber.image_url %}
-                        <img src="{{ barber.image_url }}"
-                             class="card-img-top h-100 w-100 object-fit-cover barber-img-fit"
-                             alt="{{ barber.first_name }}">
-                    {% else %}
-                        <div class="d-flex align-items-center justify-content-center h-100">
-                            <span class="text-warning fs-1">✂️</span>
+        <div class="col-lg-7 col-xl-8">
+            {% if top_three_barbers %}
+            <div class="d-flex flex-column align-items-center mb-4">
+                <h4 class="text-uppercase fw-bold mb-0 ls-2">
+                    Our Top Barbers
+                </h4>
+                <div class="blade-title-divider"></div>
+            </div>
+            {% endif %}
+
+            <div class="row g-4 justify-content-center">
+                {% for barber in top_three_barbers %}
+                <div class="col-md-6 col-xl-4">
+                    <div class="card h-100 barber-card-bg transition-hover border-0">
+                        <div class="barber-card-img-container">
+                            {% if barber.image_url %}
+                                <img src="{{ barber.image_url }}"
+                                     class="barber-img-fit"
+                                     alt="{{ barber.first_name }}">
+                            {% else %}
+                                <div class="d-flex align-items-center justify-content-center h-100">
+                                    <span class="text-warning hover-scale" style="font-size: 3rem; transition: transform 0.3s;">✂️</span>
+                                </div>
+                            {% endif %}
                         </div>
-                    {% endif %}
-                </div>
 
-                <div class="card-body text-center bg-dark text-white">
-                    <h5 class="card-title fw-bold text-uppercase">{{ barber.first_name }}</h5>
-                    <p class="card-text text-secondary fst-italic small">Bookings: {{ barber.bookings_count }}</p>
-                    <a href="{% url 'services:barber-details' barber.slug %}" class="btn btn-outline-warning btn-sm mt-2">Details</a>
+                        <div class="card-body text-center mt-2">
+                            <h5 class="card-title text-uppercase ls-1 mb-1">{{ barber.first_name }}</h5>
+                            <p class="card-text fst-italic small opacity-60 mb-3">Bookings: {{ barber.bookings_count }}</p>
+                            <a href="{% url 'services:barber-details' barber.slug %}" class="btn btn-outline-warning btn-sm px-4 ls-1 text-uppercase">Details</a>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12 mt-4 text-center">
+                    <p class="opacity-60 fst-italic">No barbers yet.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="col-lg-5 col-xl-4">
+            {% if last_five_reviews %}
+            <div class="d-flex flex-column align-items-center mb-4">
+                <h4 class="text-uppercase fw-bold mb-0 ls-2">
+                    Client Reviews
+                </h4>
+                <div class="blade-title-divider"></div>
+            </div>
+            {% endif %}
+
+            <div class="custom-scrollbar pe-3" style="max-height: 520px; overflow-y: auto;">
+                <div class="d-flex flex-column gap-3">
+                    {% for review in last_five_reviews %}
+                    <div class="card transition-hover review-card border-0 mb-1">
+                        <div class="card-body p-3">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h6 class="card-title fw-bold mb-0 ls-1 fs-6">
+                                    {{ review.author.user.username|default:"Anonymous" }}
+                                </h6>
+                                <div class="text-warning">
+                                    {% for i in "12345" %}
+                                        {% if forloop.counter <= review.rating %}
+                                            <i class="fas fa-star small"></i>
+                                        {% else %}
+                                            <i class="far fa-star small"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                    <a href="{% url 'reviews:details' review.pk %}" class="btn btn-outline-warning btn-sm rounded-pill px-3 py-1">
+                                        <i class="fas fa-plus small me-1"></i> Details
+                                    </a>
+                                </div>
+                            </div>
+
+                            <p class="card-text fst-italic lh-base mb-3" style="font-size: 0.9rem;">
+                                "{{ review.content|truncatechars:100 }}"
+                            </p>
+
+                            <div class="blade-divider mb-2"></div>
+                            <div class="text-end">
+                                <small class="text-muted fst-italic" style="font-size: 0.75rem;">{{ review.created_at|date:"M d, Y" }}</small>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-12 mt-4 text-center">
+                        <p class="opacity-60 fst-italic">No reviews yet.</p>
+                    </div>
+                    {% endfor %}
+                    <div class="mt-4 pe-3">
+                        <a href="{% url 'reviews:list' %}" class="btn btn-outline-warning w-100 ls-1 text-uppercase transition-hover py-2 fw-bold">
+                            View All Reviews <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-        {% empty %}
-        <p class="text-center text-white-50">No barbers yet.</p>
-        {% endfor %}
+
     </div>
 </div>
 {% endblock %}
