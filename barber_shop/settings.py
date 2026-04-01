@@ -33,7 +33,8 @@ PROJECT_APPS = [
     'services',
     'accounts',
     'api',
-    'reviews'
+    'reviews',
+    'rest_framework'
 ]
 
 # Application definition

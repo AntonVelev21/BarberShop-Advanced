@@ -41,13 +41,11 @@
                             </span>
                         </div>
 
-                        {{ service.description }}
                         <p class="card-text text-white-50 mb-4 flex-grow-1">
                             {{ service.description|default:"Premium grooming experience tailored for you."|truncatechars:100 }}
                         </p>
 
                         <div class="mt-auto d-flex flex-wrap align-items-center gap-2 w-100">
-                            <!-- Details -->
                             <a href="{% url 'services:service-details' service.slug %}"
                                class="btn btn-warning text-uppercase fw-bold py-2 flex-grow-1 ls-1"
                                style="font-size: 0.85rem;">

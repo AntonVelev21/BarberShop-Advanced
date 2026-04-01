@@ -1,25 +1,36 @@
 {% extends 'common/base.html' %}
 
 {% block content %}
-<div class="container py-5 mb-5">
-    {% if request.user.is_staff %}
-    <div class="mb-4 border-bottom border-warning pb-3">
-        <p class="text-warning text-uppercase small mb-1 ls-2">Management</p>
-        <h2 class="display-6 fw-bold text-uppercase text-white mb-0">Schedule & Bookings</h2>
+<div class="container py-5 mb-5 min-vh-80">
+
+    <div class="text-center mb-5">
+        {% if request.user.is_staff %}
+            <p class="text-warning text-uppercase small mb-2 ls-1">Management</p>
+            <h1 class="display-4 fw-bold text-uppercase text-white">
+                Schedule & Bookings
+            </h1>
+        {% else %}
+            <p class="text-warning text-uppercase small mb-2 ls-1">Your Itinerary</p>
+            <h1 class="display-4 fw-bold text-uppercase text-white">
+                My Bookings
+            </h1>
+        {% endif %}
+        <div class="bg-warning mx-auto mt-3 blade-title-divider"></div>
     </div>
-    {% else %}
-    <div class="mb-4 border-bottom border-warning pb-3">
-        <h2 class="display-6 fw-bold text-uppercase text-white mb-0">My Bookings</h2>
-    </div>
-    {% endif %}
 
     <div class="mb-5">
-        <h3 class="h4 text-warning text-uppercase fw-bold mb-4 ls-1">Upcoming</h3>
+        <div class="d-flex align-items-center mb-4">
+            <h3 class="h4 text-white text-uppercase fw-bold mb-0 ls-2">Upcoming Appointments</h3>
+            <div class="ms-3 flex-grow-1" style="height: 1px; background-color: rgba(184, 134, 11, 0.3);"></div>
+        </div>
         {% include 'bookings/up_comming.html' %}
     </div>
 
-    <div>
-        <h3 class="h4 text-warning text-uppercase fw-bold mb-4 ls-1">Booking History</h3>
+    <div class="mt-5 pt-4">
+        <div class="d-flex align-items-center mb-4">
+            <h3 class="h4 text-white text-uppercase fw-bold mb-0 ls-2">Booking History</h3>
+            <div class="ms-3 flex-grow-1" style="height: 1px; background-color: rgba(184, 134, 11, 0.3);"></div>
+        </div>
         {% include 'bookings/history.html' %}
     </div>
 </div>

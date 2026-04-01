@@ -48,7 +48,7 @@
 
                         <div class="card-body text-center mt-2">
                             <h5 class="card-title text-uppercase ls-1 mb-1">{{ barber.first_name }}</h5>
-                            <p class="card-text fst-italic small opacity-60 mb-3">Bookings: {{ barber.bookings_count }}</p>
+                            <p class="card-text text-white-50 mb-4 flex-grow-1">Bookings: {{ barber.bookings_count }}</p>
                             <a href="{% url 'services:barber-details' barber.slug %}" class="btn btn-outline-warning btn-sm px-4 ls-1 text-uppercase">Details</a>
                         </div>
                     </div>

@@ -1,24 +1,24 @@
-<div class="card blade-card border-0 shadow-lg rounded-0">
+<div class="card blade-card border-0 shadow-lg rounded-0 bg-dark">
     <div class="card-body p-0">
         <div class="table-responsive">
             <table class="table table-dark table-hover align-middle mb-0 blade-table">
-                <thead class="blade-table-head">
+                <thead class="blade-table-head bg-black opacity-75">
                     <tr>
-                        <th class="text-warning text-uppercase py-3 px-4 ls-1">Date & Time</th>
-                        <th class="text-warning text-uppercase py-3 px-4 ls-1">Client Details</th>
-                        <th class="text-warning text-uppercase py-3 px-4 ls-1">Service</th>
-                        <th class="text-warning text-uppercase py-3 px-4 ls-1">Barber</th>
-                        <th class="text-warning text-uppercase py-3 px-4 ls-1">Total Price</th>
-                        <th class="text-warning text-uppercase py-3 px-4 text-center ls-1">Actions</th>
+                        <th class="text-warning text-uppercase py-3 px-4 ls-1 border-bottom border-warning border-opacity-50">Date & Time</th>
+                        <th class="text-warning text-uppercase py-3 px-4 ls-1 border-bottom border-warning border-opacity-50">Client Details</th>
+                        <th class="text-warning text-uppercase py-3 px-4 ls-1 border-bottom border-warning border-opacity-50">Service</th>
+                        <th class="text-warning text-uppercase py-3 px-4 ls-1 border-bottom border-warning border-opacity-50">Barber</th>
+                        <th class="text-warning text-uppercase py-3 px-4 ls-1 border-bottom border-warning border-opacity-50">Total Price</th>
+                        <th class="text-warning text-uppercase py-3 px-4 text-center ls-1 border-bottom border-warning border-opacity-50">Actions</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     {% for booking in upcoming %}
-                    <tr class="blade-table-row">
+                    <tr class="blade-table-row border-bottom border-secondary border-opacity-25 transition-hover">
                         <td class="px-4 py-3">
-                            <div class="fw-bold text-white fs-5">{{ booking.date_and_hour|date:"d M Y" }}</div>
-                            <div class="text-warning small fw-bold mt-1">
+                            <div class="fw-bold text-white fs-6">{{ booking.date_and_hour|date:"d M Y" }}</div>
+                            <div class="text-warning small fw-bold mt-1 ls-1">
                                 <i class="far fa-clock me-1"></i> {{ booking.date_and_hour|time:"H:i" }}
                             </div>
                         </td>
@@ -33,34 +33,36 @@
                         </td>
 
                         <td class="px-4 py-3">
-                            {% for service in booking.services.all %}
-                                <span class="badge bg-dark border border-secondary text-light fw-normal mb-1 p-2 rounded-0">{{ service.name }}</span><br>
-                            {% empty %}
-                                <span class="text-white-50 small">-</span>
-                            {% endfor %}
+                            <div class="d-flex flex-wrap gap-1">
+                                {% for service in booking.services.all %}
+                                    <span class="badge bg-black border border-warning border-opacity-25 text-light fw-normal p-2">{{ service.name }}</span>
+                                {% empty %}
+                                    <span class="text-white-50 small">-</span>
+                                {% endfor %}
+                            </div>
                         </td>
 
                         <td class="px-4 py-3">
                             <div class="d-flex align-items-center">
-                                <div class="bg-secondary rounded-circle me-2 d-flex justify-content-center align-items-center barber-avatar-sm">
-                                    <i class="fas fa-cut text-dark blade-icon-sm"></i>
+                                <div class="bg-warning text-dark rounded-circle me-3 d-flex justify-content-center align-items-center barber-avatar-sm fw-bold border border-dark shadow-sm">
+                                    {{ booking.barber.first_name|slice:":1"|upper }}
                                 </div>
                                 <span class="text-white fw-semibold">{{ booking.barber.first_name }}</span>
                             </div>
                         </td>
 
                         <td class="px-4 py-3">
-                            <div class="text-white fw-semibold">
-                                {{ booking.total_price }} €
+                            <div class="text-warning fw-bold fs-5">
+                                €{{ booking.total_price }}
                             </div>
                         </td>
 
                         <td class="px-4 py-3 text-center">
-                            <div class="btn-group shadow-sm">
-                                <a href="{% url 'bookings:edit' booking.pk %}" class="btn btn-outline-light btn-sm rounded-0 border-secondary px-3" title="Edit Reservation">
+                            <div class="d-flex justify-content-center gap-2">
+                                <a href="{% url 'bookings:edit' booking.pk %}" class="btn btn-outline-warning btn-sm px-3 py-2 transition-hover text-uppercase ls-1 fw-bold" title="Edit Reservation">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <a href="{% url 'bookings:delete' booking.pk %}" class="btn btn-outline-danger btn-sm rounded-0 border-secondary px-3" title="Delete Reservation">
+                                <a href="{% url 'bookings:delete' booking.pk %}" class="btn btn-outline-danger btn-sm px-3 py-2 transition-hover text-uppercase ls-1 fw-bold" title="Delete Reservation">
                                     <i class="fas fa-trash-alt"></i>
                                 </a>
                             </div>
@@ -68,12 +70,13 @@
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="6" class="text-center py-5">
-                            <div class="text-white-50 mb-3">
-                                <i class="fas fa-calendar-check display-1 opacity-25"></i>
+                        <td colspan="6" class="text-center py-5 bg-black bg-opacity-25">
+                            <div class="text-warning mb-3 opacity-50">
+                                <i class="fas fa-calendar-check display-4"></i>
                             </div>
-                            <h4 class="text-white text-uppercase fw-bold ls-1">No upcoming appointments</h4>
-                            <p class="text-white-50 small">Ready for a fresh cut? Book your next appointment now!</p>
+                            <h5 class="text-white text-uppercase fw-bold ls-2 mb-2">No Upcoming Appointments</h5>
+                            <p class="text-white-50 small fst-italic">Ready for a fresh cut? Book your next appointment now!</p>
+                            <a href="{% url 'bookings:create' %}" class="btn btn-warning btn-sm mt-3 px-4 text-uppercase fw-bold ls-1">Book Now</a>
                         </td>
                     </tr>
                     {% endfor %}
