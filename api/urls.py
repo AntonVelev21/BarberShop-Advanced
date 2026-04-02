@@ -1,9 +1,13 @@
-from django.urls import path
+from django.urls import path, include
 
-from api.views.barbers import ListCreateBarber
+from api.views.barbers import ListCreateBarber, RetrieveUpdateDestroyBarberView
 
 app_name = 'api'
 
 urlpatterns = [
-    path('barbers/', ListCreateBarber.as_view(), name='list_create_barber')
+    path('barbers/', include([
+        path('', ListCreateBarber.as_view(), name='barber-list'),
+        path('<int:pk>/', RetrieveUpdateDestroyBarberView.as_view(), name='barber-detail')
+    ]))
 ]
+
