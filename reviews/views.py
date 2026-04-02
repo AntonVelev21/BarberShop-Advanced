@@ -1,3 +1,5 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -25,7 +27,7 @@ class ReviewDetailsView(DetailView):
     context_object_name = 'review'
 
 
-class CreateReviewView(CreateView):
+class CreateReviewView(LoginRequiredMixin, CreateView):
     model = Review
     form_class = ReviewCreateForm
     success_url = reverse_lazy('home-page')
@@ -46,17 +48,32 @@ class CreateReviewView(CreateView):
         review.save()
         return super().form_valid(form)
 
+    def get(self, request, *args, **kwargs):
+        if not request.user.has_perm('accounts.have_full_access'):
+            raise PermissionDenied
+        return super().get(request, *args, **kwargs)
 
-class EditReviewView(UpdateView):
+
+class EditReviewView(LoginRequiredMixin, UpdateView):
     model = Review
     form_class = ReviewEditForm
     success_url = reverse_lazy('home-page')
     context_object_name = 'review'
     template_name = 'reviews/form.html'
 
+    def get(self, request, *args, **kwargs):
+        if not request.user.has_perm('accounts.have_full_access'):
+            raise PermissionDenied
+        return super().get(request, *args, **kwargs)
 
-class DeleteReviewView(DeleteView):
+
+class DeleteReviewView(LoginRequiredMixin, DeleteView):
     model = Review
     success_url = reverse_lazy('home-page')
     context_object_name = 'review'
     template_name = 'reviews/delete.html'
+
+    def get(self, request, *args, **kwargs):
+        if not request.user.has_perm('accounts.have_full_access'):
+            raise PermissionDenied
+        return super().get(request, *args, **kwargs)

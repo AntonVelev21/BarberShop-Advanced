@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
@@ -27,6 +28,11 @@ class ListBookingsView(LoginRequiredMixin, ListView):
         context['upcoming'] = self.get_queryset().filter(date_and_hour__gte=datetime.today())
         return context
 
+    def get(self, request, *args, **kwargs):
+        if not request.user.has_perm('accounts.have_full_access'):
+            raise PermissionDenied
+        return super().get(request, *args, **kwargs)
+
 
 class CreateBookingView(LoginRequiredMixin, CreateView):
     form_class = BookingCreateForm
@@ -47,18 +53,33 @@ class CreateBookingView(LoginRequiredMixin, CreateView):
         booking.save()
         return super().form_valid(form)
 
+    def get(self, request, *args, **kwargs):
+        if not request.user.has_perm('accounts.have_full_access'):
+            raise PermissionDenied
+        return super().get(request, *args, **kwargs)
 
 
-class EditBookingView(UpdateView):
+
+class EditBookingView(LoginRequiredMixin, UpdateView):
     form_class = BookingEditForm
     model = Booking
     template_name = 'bookings/form.html'
     success_url = reverse_lazy('home-page')
 
+    def get(self, request, *args, **kwargs):
+        if not request.user.has_perm('accounts.have_full_access'):
+            raise PermissionDenied
+        return super().get(request, *args, **kwargs)
 
 
-class DeleteBookingView(DeleteView):
+
+class DeleteBookingView(LoginRequiredMixin, DeleteView):
     model = Booking
     template_name = 'bookings/delete.html'
     success_url = reverse_lazy('home-page')
+
+    def get(self, request, *args, **kwargs):
+        if not request.user.has_perm('accounts.have_full_access'):
+            raise PermissionDenied
+        return super().get(request, *args, **kwargs)
 
