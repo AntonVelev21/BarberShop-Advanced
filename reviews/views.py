@@ -48,11 +48,6 @@ class CreateReviewView(LoginRequiredMixin, CreateView):
         review.save()
         return super().form_valid(form)
 
-    def get(self, request, *args, **kwargs):
-        if not request.user.has_perm('accounts.have_full_access'):
-            raise PermissionDenied
-        return super().get(request, *args, **kwargs)
-
 
 class EditReviewView(LoginRequiredMixin, UpdateView):
     model = Review
@@ -61,11 +56,6 @@ class EditReviewView(LoginRequiredMixin, UpdateView):
     context_object_name = 'review'
     template_name = 'reviews/form.html'
 
-    def get(self, request, *args, **kwargs):
-        if not request.user.has_perm('accounts.have_full_access'):
-            raise PermissionDenied
-        return super().get(request, *args, **kwargs)
-
 
 class DeleteReviewView(LoginRequiredMixin, DeleteView):
     model = Review
@@ -73,7 +63,3 @@ class DeleteReviewView(LoginRequiredMixin, DeleteView):
     context_object_name = 'review'
     template_name = 'reviews/delete.html'
 
-    def get(self, request, *args, **kwargs):
-        if not request.user.has_perm('accounts.have_full_access'):
-            raise PermissionDenied
-        return super().get(request, *args, **kwargs)

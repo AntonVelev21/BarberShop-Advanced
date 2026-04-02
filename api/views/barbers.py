@@ -23,7 +23,7 @@ class RetrieveUpdateDestroyBarberView(RetrieveUpdateDestroyAPIView):
     queryset = Barber.objects.all()
     serializer_class = BarberSerializer
     def get_permissions(self):
-        if self.request.method in 'PUT, PATCH, DELETE':
+        if self.request.method in ['PUT', 'PATCH', 'DELETE']:
             return [HasFullAccessPermission()]
         return [AllowAny()]
 
