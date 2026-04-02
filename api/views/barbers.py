@@ -1,7 +1,10 @@
-from rest_framework import status
+from rest_framework import status, permissions
 from rest_framework.generics import ListCreateAPIView
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+from accounts.permissions import HasFullAccessPermission
 from api.serializers.barbers import BarberSerializer
 from services.models import Barber
 
@@ -11,7 +14,9 @@ class ListCreateBarber(ListCreateAPIView):
     serializer_class = BarberSerializer
 
     def get_permissions(self):
-        ...
+        if self.request.method == 'POST':
+            return [HasFullAccessPermission()]
+        return [AllowAny()]
 
 
 #class ListBarbers(APIView):
