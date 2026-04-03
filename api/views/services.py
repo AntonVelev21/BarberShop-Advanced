@@ -6,7 +6,7 @@ from api.serializers.services import ServiceSerializer
 from services.models import Service
 
 
-class ListCreateService(ListCreateAPIView):
+class ListCreateServiceView(ListCreateAPIView):
     serializer_class = ServiceSerializer
     queryset = Service.objects.all()
 

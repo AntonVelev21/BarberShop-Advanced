@@ -9,7 +9,7 @@ from api.serializers.barbers import BarberSerializer
 from services.models import Barber
 
 
-class ListCreateBarber(ListCreateAPIView):
+class ListCreateBarberView(ListCreateAPIView):
     queryset = Barber.objects.all()
     serializer_class = BarberSerializer
 
