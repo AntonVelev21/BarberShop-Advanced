@@ -20,3 +20,27 @@ class ReviewSerializer(ModelSerializer):
         return Review.objects.create(barber=barber, author=author, **validated_data)
 
 
+    def update(self, instance, validated_data):
+        barber_data = validated_data.pop('barber')
+        request = self.context.get('request')
+        author = request.user.user_profile
+        instance.author = author
+        for attr, value in barber_data.items():
+            setattr(instance.barber, attr, value)
+            instance.barber.save()
+
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+
+        return instance
+
+
+
+
+
+
+
+
+
+

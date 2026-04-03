@@ -1,7 +1,7 @@
 from django.urls import path, include
 
 from api.views.barbers import ListCreateBarberView, RetrieveUpdateDestroyBarberView
-from api.views.reviews import ListCreateReviewView
+from api.views.reviews import ListCreateReviewView, RetrieveUpdateDestroyReviewView
 from api.views.services import ListCreateServiceView, RetrieveUpdateDestroyServiceView
 
 app_name = 'api'
@@ -21,6 +21,7 @@ services_patterns = [
 
 reviews_pattern = [
     path('', ListCreateReviewView.as_view(), name='reviews-list'),
+    path('<int:pk>/', RetrieveUpdateDestroyReviewView.as_view(), name='review-detail')
 ]
 
 urlpatterns = [
