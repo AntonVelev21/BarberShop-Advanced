@@ -1,13 +1,7 @@
-from django.shortcuts import get_list_or_404
 from django.utils import timezone
 from rest_framework.exceptions import ValidationError
-from rest_framework.generics import get_object_or_404
 from rest_framework.serializers import ModelSerializer
-
-from api.serializers.barbers import BarberSerializer
-from api.serializers.services import ServiceSerializer
 from bookings.models import Booking
-from services.models import Barber, Service
 
 
 class BookingSerializer(ModelSerializer):
@@ -46,6 +40,40 @@ class BookingSerializer(ModelSerializer):
         if entered_date and entered_date < timezone.now():
             raise ValidationError('You cannot book a seat in the past!')
         return entered_date
+
+
+    def validate(self, attrs):
+        date_and_hour = attrs['date_and_hour']
+        barber = attrs['barber']
+
+        if date_and_hour and barber:
+            if date_and_hour.weekday() == 6:
+                raise ValidationError({
+                    'date_and_hour': 'Please choose a working day. We work from Monday to Saturday.'
+                })
+
+            elif date_and_hour.minute not in [0, 30]:
+                raise ValidationError({
+                    'date_and_hour': 'Please select a valid time slot (e.g. 10:00 or 10:30).'
+                })
+
+
+            elif date_and_hour.hour < 9 or date_and_hour.hour >= 20:
+                raise ValidationError({
+                    'date_and_hour': 'Our working hours are between 09:00 and 18:00.'
+                })
+
+
+            else:
+                is_booked = Booking.objects.filter(
+                    date_and_hour=date_and_hour,
+                    barber=barber
+                ).exists()
+                if is_booked:
+                    raise ValidationError({
+                        'date_and_hour': f'Sorry, {barber.first_name} is already booked for this time. Please choose another.'
+                    })
+        return attrs
 
 
 
