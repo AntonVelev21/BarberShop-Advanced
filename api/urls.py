@@ -1,7 +1,7 @@
 from django.urls import path, include
 
 from api.views.barbers import ListCreateBarberView, RetrieveUpdateDestroyBarberView
-from api.views.bookings import ListCreateBookingView
+from api.views.bookings import ListCreateBookingView, RetrieveUpdateDestroyBookingView
 from api.views.reviews import ListCreateReviewView, RetrieveUpdateDestroyReviewView
 from api.views.services import ListCreateServiceView, RetrieveUpdateDestroyServiceView
 
@@ -15,19 +15,21 @@ barbers_patterns = [
 ]
 
 services_patterns = [
-    path('', ListCreateServiceView.as_view(), name='services-list'),
+    path('', ListCreateServiceView.as_view(), name='service-list'),
     path('<int:pk>/', RetrieveUpdateDestroyServiceView.as_view(), name='service-detail')
 ]
 
 
 reviews_pattern = [
-    path('', ListCreateReviewView.as_view(), name='reviews-list'),
-    path('<int:pk>/', RetrieveUpdateDestroyReviewView.as_view(), name='review-detail')
+    path('', ListCreateReviewView.as_view(), name='review-list'),
+    path('<int:pk>/', RetrieveUpdateDestroyReviewView.as_view(), name='review-detail'),
+
 ]
 
 
 bookings_pattern = [
-    path('', ListCreateBookingView.as_view(), name='bookings-list'),
+    path('', ListCreateBookingView.as_view(), name='booking-list'),
+    path('<int:pk>/', RetrieveUpdateDestroyBookingView.as_view(), name='booking-detail')
 ]
 
 
