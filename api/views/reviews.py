@@ -6,15 +6,7 @@ from accounts.permissions import HasFullAccessPermission
 from api.serializers.reviews import ReviewSerializer
 from reviews.models import Review
 
-"""
-To do!
-Implement Full CRUD to Review and Booking models;
-Config the urls;
-Look for creating some custom validators to the project;
-Look for some small details or upgrades;
-Implement testing logic;
-Organize the static or media files and start preparation for deployment
-"""
+
 class ListCreateReviewView(LoginRequiredMixin, ListCreateAPIView):
     serializer_class = ReviewSerializer
     queryset = Review.objects.select_related('barber')

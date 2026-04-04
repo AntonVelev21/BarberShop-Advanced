@@ -12,11 +12,8 @@ class BaseBookingForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        for field_name, field in self.fields.items():
-            field.widget.attrs['class'] = 'form-control bg-dark text-white border-secondary rounded-0'
-            field.widget.attrs['style'] = 'padding: 12px;'
-            if field_name == 'date_and_hour':
-                field.widget.input_type = 'datetime-local'
+        date_time_field = self.fields['date_and_hour']
+        date_time_field.widget.input_type = 'datetime-local'
 
 
     def clean_date_and_hour(self):
@@ -53,6 +50,8 @@ class BaseBookingForm(ModelForm):
                     self.add_error('date_and_hour', f'Sorry, {barber.first_name} is already booked for this time. Please choose another.')
 
         return cleaned_data
+
+
 
 class BookingCreateForm(BaseBookingForm):
     ...

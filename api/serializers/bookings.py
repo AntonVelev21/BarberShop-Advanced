@@ -1,4 +1,6 @@
 from django.shortcuts import get_list_or_404
+from django.utils import timezone
+from rest_framework.exceptions import ValidationError
 from rest_framework.generics import get_object_or_404
 from rest_framework.serializers import ModelSerializer
 
@@ -36,4 +38,14 @@ class BookingSerializer(ModelSerializer):
             setattr(instance, attr, value)
             instance.save()
         return instance
+
+
+    @staticmethod
+    def validate_date_and_hour(value):
+        entered_date = value
+        if entered_date and entered_date < timezone.now():
+            raise ValidationError('You cannot book a seat in the past!')
+        return entered_date
+
+
 

@@ -11,7 +11,6 @@ class ReviewSerializer(ModelSerializer):
         model = Review
         exclude = ('author', )
 
-
     def create(self, validated_data):
         request = self.context.get('request')
         author = request.user.user_profile
@@ -34,6 +33,8 @@ class ReviewSerializer(ModelSerializer):
         instance.save()
 
         return instance
+
+
 
 
 
