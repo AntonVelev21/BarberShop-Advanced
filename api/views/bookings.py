@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from rest_framework.generics import ListCreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 
 from api.serializers.bookings import BookingSerializer
 from bookings.models import Booking
@@ -14,7 +14,6 @@ class ListCreateBookingView(LoginRequiredMixin, ListCreateAPIView):
         return (Booking.objects.filter
                 (user_profile=self.request.user.user_profile)
                 .select_related('barber').prefetch_related('services__bookings'))
-
 
 
 class RetrieveUpdateDestroyBookingView(RetrieveUpdateDestroyAPIView):
