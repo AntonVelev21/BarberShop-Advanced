@@ -11,3 +11,4 @@ class IndexView(TemplateView):
         context['top_three_barbers'] = Barber.objects.annotate(bookings_count=Count('bookings')).order_by('-bookings_count')[:3]
         context['last_five_reviews'] = Review.objects.all().order_by('-created_at')[:5]
         return context
+
