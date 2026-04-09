@@ -1,12 +1,13 @@
 from datetime import datetime
+from time import strftime
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from bookings.forms import BookingCreateForm, BookingEditForm
 from bookings.models import Booking
+from bookings.tasks import sent_booking_confirmation_email
 from services.models import Barber
 
 
@@ -46,6 +47,12 @@ class CreateBookingView(LoginRequiredMixin, CreateView):
         booking = form.save(commit=False)
         booking.user_profile = self.request.user.user_profile
         booking.save()
+        services = ', '.join(s.name for s in form.cleaned_data['services'])
+        barber = form.cleaned_data['barber']
+        formated_date = booking.date_and_hour.strftime("%d.%m.%Y")
+        formated_time = booking.date_and_hour.strftime("%H:%M")
+        info = f'{services} on {formated_date} at {formated_time}. Barber - {barber.first_name}'
+        sent_booking_confirmation_email.delay(booking.user_profile.user.email, info)
         return super().form_valid(form)
 
 
