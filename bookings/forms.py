@@ -3,7 +3,11 @@ from django.utils import timezone
 from django.core.exceptions import ValidationError
 from django.forms.models import ModelForm
 from bookings.models import Booking
+"""
+To do:
+Implement custom calendar with available booking hours fot the chosen day
 
+"""
 
 class BaseBookingForm(ModelForm):
     class Meta:
