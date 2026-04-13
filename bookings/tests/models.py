@@ -1,4 +1,6 @@
 import os
+from datetime import datetime
+
 import django
 from django.test import TestCase
 
@@ -52,9 +54,6 @@ class BookingTest(TestCase):
     def test_booking_total_price_is_correct(self):
         self.assertEqual(self.test_booking.total_price, 61)
 
-    def test_booking_total_price_is_not_correct(self):
-        self.assertNotEqual(self.test_booking.total_price, 62)
-
     def test_booking_total_price_updates_on_additional_service(self):
         old_price = self.test_booking.total_price
         extra_service = Service.objects.create(
@@ -68,3 +67,18 @@ class BookingTest(TestCase):
 
         self.assertEqual(self.test_booking.total_price, 71)
         self.assertNotEqual(self.test_booking.total_price, old_price)
+
+
+    def test_booking_total_price_with_no_services(self):
+        booking_with_no_services =Booking.objects.create(user_profile=self.user.user_profile,
+            barber=self.barber)
+        self.assertEqual(booking_with_no_services.total_price, 0)
+
+    def test_str_method_with_date(self):
+        self.test_booking.date_and_hour = datetime(2026, 10, 10, 14, 30)
+        expected_message = f"Booking for {self.test_booking.user_profile.user.username} on 10-10 14:30"
+        self.assertEqual(self.test_booking.__str__(), expected_message)
+
+    def test_str_method_without_date(self):
+        expected_message = f"Booking for {self.test_booking.user_profile.user.username} on (No date set)"
+        self.assertEqual(self.test_booking.__str__(), expected_message)

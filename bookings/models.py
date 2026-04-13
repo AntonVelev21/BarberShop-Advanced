@@ -18,5 +18,5 @@ class Booking(models.Model):
         if self.date_and_hour:
             formated_date = self.date_and_hour.strftime('%d-%m %H:%M')
         else:
-            formated_date = 'No date set'
+            formated_date = '(No date set)'
         return f"Booking for {self.user_profile.user.username} on {formated_date}"
