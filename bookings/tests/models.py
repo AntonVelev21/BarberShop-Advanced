@@ -77,8 +77,8 @@ class BookingTest(TestCase):
     def test_str_method_with_date(self):
         self.test_booking.date_and_hour = datetime(2026, 10, 10, 14, 30)
         expected_message = f"Booking for {self.test_booking.user_profile.user.username} on 10-10 14:30"
-        self.assertEqual(self.test_booking.__str__(), expected_message)
+        self.assertEqual(str(self.test_booking), expected_message)
 
     def test_str_method_without_date(self):
         expected_message = f"Booking for {self.test_booking.user_profile.user.username} on (No date set)"
-        self.assertEqual(self.test_booking.__str__(), expected_message)
+        self.assertEqual(str(self.test_booking), expected_message)
