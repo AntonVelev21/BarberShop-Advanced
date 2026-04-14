@@ -12,7 +12,7 @@ from bookings.models import Booking
 from services.models import Barber, Service
 
 
-class BookingTest(TestCase):
+class BookingModelTests(TestCase):
     def setUp(self):
         self.user = User.objects.create(
             username='test_userrr',

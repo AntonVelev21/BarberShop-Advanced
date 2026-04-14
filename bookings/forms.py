@@ -45,12 +45,15 @@ class BaseBookingForm(ModelForm):
                 self.add_error('date_and_hour', 'Our working hours are between 09:00 and 18:00.')
 
             else:
-                is_booked = Booking.objects.filter(
+                query = Booking.objects.filter(
                     date_and_hour=date_and_hour,
                     barber=barber
-                ).exists()
+                )
 
-                if is_booked:
+                if self.instance and self.instance.pk:
+                    query = query.exclude(pk=self.instance.pk)
+
+                if query.exists():
                     self.add_error('date_and_hour', f'Sorry, {barber.first_name} is already booked for this time. Please choose another.')
 
         return cleaned_data
