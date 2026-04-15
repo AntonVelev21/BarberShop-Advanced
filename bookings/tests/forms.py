@@ -118,7 +118,4 @@ class BookingFormTests(TestCase):
         }
 
         form = BookingEditForm(data=form_data, instance=booking)
-
-        if not form.is_valid():
-            print(f"\nFORM ERRORS: {form.errors.as_json()}")
         self.assertTrue(form.is_valid())

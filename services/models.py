@@ -28,7 +28,11 @@ class Barber(models.Model):
     last_name = models.CharField(max_length=50)
     image_url = models.URLField()
     bio = models.TextField()
-    years_of_experience = models.IntegerField()
+    years_of_experience = models.IntegerField(
+        validators=[
+            MinValueValidator(0, 'Barber experience can not be negative number!')
+        ]
+    )
     slug = models.SlugField(max_length=50, unique=True, blank=True)
 
 
