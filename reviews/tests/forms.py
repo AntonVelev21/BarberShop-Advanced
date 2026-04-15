@@ -1,6 +1,3 @@
-import os
-
-import django
 from django.contrib.auth.models import User
 from django.test import TestCase
 
@@ -8,8 +5,6 @@ from reviews.forms import ReviewCreateForm, ReviewEditForm
 from reviews.models import Review
 from services.models import Barber
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'barber_shop.settings')
-django.setup()
 
 
 class ReviewFormTests(TestCase):
