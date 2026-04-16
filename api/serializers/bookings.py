@@ -64,12 +64,15 @@ class BookingSerializer(ModelSerializer):
                 })
 
 
+
             else:
-                is_booked = Booking.objects.filter(
+                query = Booking.objects.filter(
                     date_and_hour=date_and_hour,
                     barber=barber
-                ).exists()
-                if is_booked:
+                )
+                if self.instance and self.instance.pk:
+                    query = query.exclude(pk=self.instance.pk)
+                if query.exists():
                     raise ValidationError({
                         'date_and_hour': f'Sorry, {barber.first_name} is already booked for this time. Please choose another.'
                     })
