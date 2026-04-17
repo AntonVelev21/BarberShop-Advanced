@@ -56,10 +56,20 @@ class EditReviewView(LoginRequiredMixin, UpdateView):
     context_object_name = 'review'
     template_name = 'reviews/form.html'
 
+    def get(self, request, *args, **kwargs):
+        if not request.user.has_perm('accounts.have_full_access'):
+            raise PermissionDenied
+        return super().get(request, *args, **kwargs)
+
 
 class DeleteReviewView(LoginRequiredMixin, DeleteView):
     model = Review
     success_url = reverse_lazy('home-page')
     context_object_name = 'review'
     template_name = 'reviews/delete.html'
+
+    def get(self, request, *args, **kwargs):
+        if not request.user.has_perm('accounts.have_full_access'):
+            raise PermissionDenied
+        return super().get(request, *args, **kwargs)
 
