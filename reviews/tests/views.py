@@ -100,7 +100,7 @@ class ReviewCRUDTest(ReviewTestBase):
         self.assertTrue(Review.objects.filter(title='Test form worker').exists())
 
 
-    def test_edit_barber_success(self):
+    def test_edit_booking_success(self):
         self.client.login(username='boss', password='test1234')
         url = reverse('reviews:edit', kwargs={'pk': self.review.pk})
         data = {
@@ -115,7 +115,7 @@ class ReviewCRUDTest(ReviewTestBase):
         self.assertEqual(self.review.title, 'Updated***')
 
 
-    def test_delete_barber_success(self):
+    def test_delete_booking_success(self):
         self.client.login(username='boss', password='test1234')
         url = reverse('reviews:delete', kwargs={'pk': self.review.pk})
         response = self.client.post(url)

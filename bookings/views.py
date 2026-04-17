@@ -2,9 +2,11 @@ from datetime import datetime
 from time import strftime
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+
 from bookings.forms import BookingCreateForm, BookingEditForm
 from bookings.models import Booking
 from bookings.tasks import sent_booking_confirmation_email
@@ -62,10 +64,20 @@ class EditBookingView(LoginRequiredMixin, UpdateView):
     template_name = 'bookings/form.html'
     success_url = reverse_lazy('home-page')
 
+    def get(self, request, *args, **kwargs):
+        if not request.user.has_perm('accounts.have_full_access'):
+            raise PermissionDenied
+        return super().get(request, *args, **kwargs)
+
 
 class DeleteBookingView(LoginRequiredMixin, DeleteView):
     model = Booking
     template_name = 'bookings/delete.html'
     success_url = reverse_lazy('home-page')
+
+    def get(self, request, *args, **kwargs):
+        if not request.user.has_perm('accounts.have_full_access'):
+            raise PermissionDenied
+        return super().get(request, *args, **kwargs)
 
 
