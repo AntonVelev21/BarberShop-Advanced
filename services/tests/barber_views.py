@@ -108,4 +108,4 @@ class BarberCRUDTest(BarberTestBase):
         url = reverse('services:delete-barber', kwargs={'slug': self.barber.slug})
         response = self.client.post(url)
         self.assertRedirects(response, reverse('home-page'))
-        self.assertFalse(Barber.objects.filter(id=self.barber.id).exists())
+        self.assertFalse(Barber.objects.filter(id=self.barber.id))
