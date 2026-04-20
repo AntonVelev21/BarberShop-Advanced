@@ -9,7 +9,9 @@ class BookingSerializer(ModelSerializer):
         model = Booking
         exclude = ['user_profile', ]
         extra_kwargs = {
-            'date_and_hour': {'style': {'input_type': 'text'}}
+            'date_and_hour': {'style': {'input_type': 'text'}},
+            'barber': {'required': False},
+            'services': {'required': False}
         }
 
     def create(self, validated_data):
@@ -21,16 +23,15 @@ class BookingSerializer(ModelSerializer):
         booking.services.set(services)
         return booking
 
-
     def update(self, instance, validated_data):
-        barber = validated_data.pop('barber', instance.barber)
         services = validated_data.pop('services', None)
-        instance.barber = barber
-        if services:
-             instance.services.set(services)
+        if services is not None:
+            instance.services.set(services)
+        if 'barber' in validated_data:
+            instance.barber = validated_data.pop('barber')
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
-            instance.save()
+        instance.save()
         return instance
 
 

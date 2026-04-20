@@ -29,7 +29,7 @@ class TestListCreateReviewAPIView(ReviewTestBase, APITestCase):
         self.assertEqual(response.data[0]['content'], 'Lorem Ipson')
 
 
-    def test_review_create_without_authentication_expect_expect_forbidden(self):
+    def test_review_create_without_authentication_expect_forbidden(self):
         response = self.client.post(reverse('api:review-list'), data=self.data, format='json')
         self.assertEqual(response.status_code, 403)
 
