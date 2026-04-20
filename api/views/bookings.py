@@ -25,6 +25,7 @@ class ListCreateBookingView(ListCreateAPIView):
 class RetrieveUpdateDestroyBookingView(RetrieveUpdateDestroyAPIView):
     serializer_class = BookingSerializer
 
+
     def get_queryset(self):
         if self.request.user.has_perm('accounts.have_full_access'):
             return Booking.objects.select_related('barber').prefetch_related('services__bookings')

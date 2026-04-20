@@ -18,9 +18,9 @@
 </section>
 
 <div class="container mb-5">
-    <div class="row g-5">
+    <div class="row g-5 {% if not last_five_reviews %}justify-content-center{% endif %}">
 
-        <div class="col-lg-7 col-xl-8">
+        <div class="{% if last_five_reviews %}col-lg-7 col-xl-8{% else %}col-lg-10{% endif %}">
             {% if top_three_barbers %}
             <div class="d-flex flex-column align-items-center mb-4">
                 <h4 class="text-uppercase fw-bold mb-0 ls-2">
@@ -32,7 +32,7 @@
 
             <div class="row g-4 justify-content-center">
                 {% for barber in top_three_barbers %}
-                <div class="col-md-6 col-xl-4">
+                <div class="col-md-6 col-lg-4">
                     <div class="card h-100 barber-card-bg transition-hover border-0">
                         <div class="barber-card-img-container">
                             {% if barber.image_url %}
@@ -61,15 +61,14 @@
             </div>
         </div>
 
+        {% if last_five_reviews %}
         <div class="col-lg-5 col-xl-4">
-            {% if last_five_reviews %}
             <div class="d-flex flex-column align-items-center mb-4">
                 <h4 class="text-uppercase fw-bold mb-0 ls-2">
                     Client Reviews
                 </h4>
                 <div class="blade-title-divider"></div>
             </div>
-            {% endif %}
 
             <div class="custom-scrollbar pe-3" style="max-height: 520px; overflow-y: auto;">
                 <div class="d-flex flex-column gap-3">
@@ -81,6 +80,9 @@
                                     {{ review.author.user.username|default:"Anonymous" }}
                                 </h6>
                                 <div class="text-warning">
+                                    <a href="{% url 'reviews:details' review.pk %}" class="btn btn-outline-warning btn-sm rounded-pill px-3 py-1">
+                                            <i class="fas fa-plus small me-1"></i> Details
+                                    </a>
                                     {% for i in "12345" %}
                                         {% if forloop.counter <= review.rating %}
                                             <i class="fas fa-star small"></i>
@@ -88,9 +90,6 @@
                                             <i class="far fa-star small"></i>
                                         {% endif %}
                                     {% endfor %}
-                                    <a href="{% url 'reviews:details' review.pk %}" class="btn btn-outline-warning btn-sm rounded-pill px-3 py-1">
-                                        <i class="fas fa-plus small me-1"></i> Details
-                                    </a>
                                 </div>
                             </div>
 
@@ -104,11 +103,8 @@
                             </div>
                         </div>
                     </div>
-                    {% empty %}
-                    <div class="col-12 mt-4 text-center">
-                        <p class="opacity-60 fst-italic">No reviews yet.</p>
-                    </div>
                     {% endfor %}
+
                     <div class="mt-4 pe-3">
                         <a href="{% url 'reviews:list' %}" class="btn btn-outline-warning w-100 ls-1 text-uppercase transition-hover py-2 fw-bold">
                             View All Reviews <i class="fas fa-arrow-right ms-2"></i>
@@ -117,6 +113,7 @@
                 </div>
             </div>
         </div>
+        {% endif %}
 
     </div>
 </div>

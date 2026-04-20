@@ -1,4 +1,5 @@
 from django.utils import timezone
+from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from rest_framework.serializers import ModelSerializer
 from bookings.models import Booking
@@ -10,8 +11,6 @@ class BookingSerializer(ModelSerializer):
         exclude = ['user_profile', ]
         extra_kwargs = {
             'date_and_hour': {'style': {'input_type': 'text'}},
-            'barber': {'required': False},
-            'services': {'required': False}
         }
 
     def create(self, validated_data):
@@ -22,6 +21,7 @@ class BookingSerializer(ModelSerializer):
         booking = Booking.objects.create(user_profile=user_profile, barber=barber, **validated_data)
         booking.services.set(services)
         return booking
+
 
     def update(self, instance, validated_data):
         services = validated_data.pop('services', None)
@@ -44,39 +44,39 @@ class BookingSerializer(ModelSerializer):
 
 
     def validate(self, attrs):
-        date_and_hour = attrs['date_and_hour']
-        barber = attrs['barber']
+        date_and_hour = attrs.get('date_and_hour', getattr(self.instance, 'date_and_hour', None))
+        barber = attrs.get('barber', getattr(self.instance, 'barber', None))
 
-        if date_and_hour and barber:
-            if date_and_hour.weekday() == 6:
-                raise ValidationError({
-                    'date_and_hour': 'Please choose a working day. We work from Monday to Saturday.'
-                })
+        if not date_and_hour or not barber:
+            raise ValidationError("Both barber and booking time are required.")
 
-            elif date_and_hour.minute not in [0, 30]:
-                raise ValidationError({
-                    'date_and_hour': 'Please select a valid time slot (e.g. 10:00 or 10:30).'
-                })
+        if date_and_hour.weekday() == 6:
+            raise ValidationError({
+                'date_and_hour': 'Please choose a working day. We work from Monday to Saturday.'
+            })
 
+        if date_and_hour.minute not in [0, 30]:
+            raise ValidationError({
+                'date_and_hour': 'Please select a valid time slot (e.g. 10:00 or 10:30).'
+            })
 
-            elif date_and_hour.hour < 9 or date_and_hour.hour >= 20:
-                raise ValidationError({
-                    'date_and_hour': 'Our working hours are between 09:00 and 18:00.'
-                })
+        if date_and_hour.hour < 9 or date_and_hour.hour >= 20:
+            raise ValidationError({
+                'date_and_hour': 'Our working hours are between 09:00 and 20:00.'
+            })
 
+        query = Booking.objects.filter(
+            date_and_hour=date_and_hour,
+            barber=barber
+        )
 
+        if self.instance and self.instance.pk:
+            query = query.exclude(pk=self.instance.pk)
 
-            else:
-                query = Booking.objects.filter(
-                    date_and_hour=date_and_hour,
-                    barber=barber
-                )
-                if self.instance and self.instance.pk:
-                    query = query.exclude(pk=self.instance.pk)
-                if query.exists():
-                    raise ValidationError({
-                        'date_and_hour': f'Sorry, {barber.first_name} is already booked for this time. Please choose another.'
-                    })
+        if query.exists():
+            raise ValidationError({
+                'date_and_hour': f'Sorry, {barber.first_name} is already booked for this time.'
+            })
         return attrs
 
 

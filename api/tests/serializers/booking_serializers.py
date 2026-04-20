@@ -93,7 +93,7 @@ class BookingSerializerTests(TestCase):
         self.assertIn('date_and_hour', serializer.errors)
         self.assertEqual(
             serializer.errors['date_and_hour'][0],
-            'Our working hours are between 09:00 and 18:00.'
+            'Our working hours are between 09:00 and 20:00.'
         )
 
 
@@ -128,7 +128,7 @@ class BookingSerializerTests(TestCase):
         self.assertIn('date_and_hour', serializer.errors)
         self.assertEqual(
             serializer.errors['date_and_hour'][0],
-            'Sorry, test3 is already booked for this time. Please choose another.'
+            'Sorry, test3 is already booked for this time.'
         )
 
 
