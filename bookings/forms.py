@@ -42,7 +42,7 @@ class BaseBookingForm(ModelForm):
 
 
             elif date_and_hour.hour < 9 or date_and_hour.hour >= 20:
-                self.add_error('date_and_hour', 'Our working hours are between 09:00 and 18:00.')
+                self.add_error('date_and_hour', 'Our working hours are between 09:00 and 20:00.')
 
             else:
                 query = Booking.objects.filter(
