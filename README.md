@@ -77,7 +77,7 @@
 - `services/` – Service and Barber management
 - `reviews/` – Reviews app with full CRUD functionality
 - `api/` – REST API endpoints and serializers
-- `accounts/` *(or similar)* – Authentication, authorization, and user profiles
+- `accounts/` – Authentication, authorization, and user profiles
 - `templates/` – HTML templates
 - `static/` – Static assets (CSS, images)
 - `manage.py` – Django management script
